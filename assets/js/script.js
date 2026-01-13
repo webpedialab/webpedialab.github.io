@@ -407,6 +407,30 @@ async function loadPart(id, file) {
     // /lab/配下なら再度スタイル適用念押し
     if (url.includes('/lab/')) {
       applyDarkModeStyles();
+      
+      // ★画像ギャラリーのスタイルを強制適用
+      document.querySelectorAll('ul.image-gallery').forEach(gallery => {
+          gallery.style.setProperty('display', 'flex', 'important');
+          gallery.style.setProperty('flex-direction', 'row', 'important');
+          gallery.style.setProperty('flex-wrap', 'wrap', 'important');
+          gallery.style.setProperty('gap', '20px', 'important');
+          gallery.style.setProperty('list-style', 'none', 'important');
+          gallery.style.setProperty('padding', '0', 'important');
+          gallery.style.setProperty('margin', '20px 0', 'important');
+          
+          const items = gallery.querySelectorAll('li');
+          items.forEach(item => {
+              item.style.setProperty('flex', '0 0 auto', 'important');
+              item.style.setProperty('display', 'inline-block', 'important');
+          });
+          
+          const images = gallery.querySelectorAll('img');
+          images.forEach(img => {
+              img.style.setProperty('display', 'block', 'important');
+              img.style.setProperty('max-width', '100%', 'important');
+              img.style.setProperty('height', 'auto', 'important');
+          });
+      });
     }
     
     // ★重要: DOM挿入完了後に順序を適用（複数タイミングで確実に）
