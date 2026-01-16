@@ -242,63 +242,6 @@ const styleObserver = new MutationObserver((mutations) => {
 // グローバル変数: 現在表示中のページURL（リサイズ時の判定用）
 let currentLoadedUrl = '';
 
-// 美術館風ギャラリーのスタイルを適用する関数
-function applyGalleryStyle(gallery) {
-    // ギャラリー本体
-    gallery.style.setProperty('display', 'flex', 'important');
-    gallery.style.setProperty('flex-direction', 'row', 'important');
-    gallery.style.setProperty('flex-wrap', 'wrap', 'important');
-    gallery.style.setProperty('gap', '40px', 'important');
-    gallery.style.setProperty('list-style', 'none', 'important');
-    gallery.style.setProperty('padding', '40px 20px', 'important');
-    gallery.style.setProperty('margin', '20px 0', 'important');
-    gallery.style.setProperty('background', 'linear-gradient(135deg, #f5f5f0 0%, #e8e8e0 100%)', 'important');
-    gallery.style.setProperty('border-radius', '8px', 'important');
-    
-    // li要素
-    const items = gallery.querySelectorAll('li');
-    items.forEach(item => {
-        item.style.setProperty('flex', '0 0 auto', 'important');
-        item.style.setProperty('display', 'inline-block', 'important');
-        item.style.setProperty('position', 'relative', 'important');
-        item.style.setProperty('transition', 'transform 0.3s ease', 'important');
-    });
-    
-    // img要素 - 額縁効果
-    const images = gallery.querySelectorAll('img');
-    images.forEach(img => {
-        img.style.setProperty('display', 'block', 'important');
-        img.style.setProperty('max-width', '100%', 'important');
-        img.style.setProperty('height', 'auto', 'important');
-        img.style.setProperty('border', '15px solid #ffffff', 'important');
-        img.style.setProperty('box-shadow', '0 0 0 1px rgba(0,0,0,0.08), 0 8px 24px rgba(0,0,0,0.15)', 'important');
-        img.style.setProperty('transition', 'all 0.3s ease', 'important');
-        img.style.setProperty('border-radius', '2px', 'important');
-    });
-    
-    // ホバー効果
-    items.forEach(item => {
-        item.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-8px)';
-            const img = this.querySelector('img');
-            if (img) {
-                img.style.boxShadow = '0 0 0 1px rgba(0,0,0,0.1), 0 16px 40px rgba(0,0,0,0.25)';
-                img.style.filter = 'brightness(1.05)';
-            }
-        });
-        
-        item.addEventListener('mouseleave', function() {
-            this.style.transform = '';
-            const img = this.querySelector('img');
-            if (img) {
-                img.style.boxShadow = '0 0 0 1px rgba(0,0,0,0.08), 0 8px 24px rgba(0,0,0,0.15)';
-                img.style.filter = '';
-            }
-        });
-    });
-}
-
-
 // 共通パーツ読み込み
 async function loadPart(id, file) {
   console.log('🚀 loadPart呼び出し:', { id, file });
@@ -465,9 +408,60 @@ async function loadPart(id, file) {
     if (url.includes('/lab/')) {
       applyDarkModeStyles();
       
-      // ★画像ギャラリーのスタイルを強制適用（SPA遷移時）
+      // ★画像ギャラリーのスタイルを強制適用（美術館風 - SPA遷移時）
       document.querySelectorAll('ul.image-gallery').forEach(gallery => {
-          applyGalleryStyle(gallery);
+          // ギャラリー本体
+          gallery.style.setProperty('display', 'flex', 'important');
+          gallery.style.setProperty('flex-direction', 'row', 'important');
+          gallery.style.setProperty('flex-wrap', 'wrap', 'important');
+          gallery.style.setProperty('gap', '40px', 'important');
+          gallery.style.setProperty('list-style', 'none', 'important');
+          gallery.style.setProperty('padding', '40px 20px', 'important');
+          gallery.style.setProperty('margin', '20px 0', 'important');
+          gallery.style.setProperty('background', 'linear-gradient(135deg, #f5f5f0 0%, #e8e8e0 100%)', 'important');
+          gallery.style.setProperty('border-radius', '8px', 'important');
+          
+          // li要素
+          const items = gallery.querySelectorAll('li');
+          items.forEach(item => {
+              item.style.setProperty('flex', '0 0 auto', 'important');
+              item.style.setProperty('display', 'inline-block', 'important');
+              item.style.setProperty('position', 'relative', 'important');
+              item.style.setProperty('transition', 'transform 0.3s ease', 'important');
+          });
+          
+          // img要素 - 額縁効果
+          const images = gallery.querySelectorAll('img');
+          images.forEach(img => {
+              img.style.setProperty('display', 'block', 'important');
+              img.style.setProperty('max-width', '100%', 'important');
+              img.style.setProperty('height', 'auto', 'important');
+              img.style.setProperty('border', '15px solid #ffffff', 'important');
+              img.style.setProperty('box-shadow', '0 0 0 1px rgba(0,0,0,0.08), 0 8px 24px rgba(0,0,0,0.15)', 'important');
+              img.style.setProperty('transition', 'all 0.3s ease', 'important');
+              img.style.setProperty('border-radius', '2px', 'important');
+          });
+          
+          // ホバー効果
+          items.forEach(item => {
+              item.addEventListener('mouseenter', function() {
+                  this.style.transform = 'translateY(-8px)';
+                  const img = this.querySelector('img');
+                  if (img) {
+                      img.style.boxShadow = '0 0 0 1px rgba(0,0,0,0.1), 0 16px 40px rgba(0,0,0,0.25)';
+                      img.style.filter = 'brightness(1.05)';
+                  }
+              });
+              
+              item.addEventListener('mouseleave', function() {
+                  this.style.transform = '';
+                  const img = this.querySelector('img');
+                  if (img) {
+                      img.style.boxShadow = '0 0 0 1px rgba(0,0,0,0.08), 0 8px 24px rgba(0,0,0,0.15)';
+                      img.style.filter = '';
+                  }
+              });
+          });
       });
     }
     
@@ -1976,7 +1970,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 100);
   }
 });
-// ページ読み込み時にも画像ギャラリーのスタイルを適用（直接アクセス対応）
+// ページ読み込み時にも画像ギャラリーのスタイルを適用（美術館風 - 直接アクセス対応）
 document.addEventListener('DOMContentLoaded', function() {
   console.log('🎨 DOMContentLoaded: 画像ギャラリースタイル適用開始');
   
@@ -1984,32 +1978,64 @@ document.addEventListener('DOMContentLoaded', function() {
   if (window.location.pathname.includes('/lab/')) {
     console.log('✅ /lab/配下のページを検出');
     
-    // 画像ギャラリーのスタイルを強制適用
+    // 画像ギャラリーのスタイルを強制適用（美術館風）
     document.querySelectorAll('ul.image-gallery').forEach(gallery => {
         console.log('🖼️ 画像ギャラリー発見:', gallery);
         
+        // ギャラリー本体
         gallery.style.setProperty('display', 'flex', 'important');
         gallery.style.setProperty('flex-direction', 'row', 'important');
         gallery.style.setProperty('flex-wrap', 'wrap', 'important');
-        gallery.style.setProperty('gap', '20px', 'important');
+        gallery.style.setProperty('gap', '40px', 'important');
         gallery.style.setProperty('list-style', 'none', 'important');
-        gallery.style.setProperty('padding', '0', 'important');
+        gallery.style.setProperty('padding', '40px 20px', 'important');
         gallery.style.setProperty('margin', '20px 0', 'important');
+        gallery.style.setProperty('background', 'linear-gradient(135deg, #f5f5f0 0%, #e8e8e0 100%)', 'important');
+        gallery.style.setProperty('border-radius', '8px', 'important');
         
+        // li要素
         const items = gallery.querySelectorAll('li');
         items.forEach(item => {
             item.style.setProperty('flex', '0 0 auto', 'important');
             item.style.setProperty('display', 'inline-block', 'important');
+            item.style.setProperty('position', 'relative', 'important');
+            item.style.setProperty('transition', 'transform 0.3s ease', 'important');
         });
         
+        // img要素 - 額縁効果
         const images = gallery.querySelectorAll('img');
         images.forEach(img => {
             img.style.setProperty('display', 'block', 'important');
             img.style.setProperty('max-width', '100%', 'important');
             img.style.setProperty('height', 'auto', 'important');
+            img.style.setProperty('border', '15px solid #ffffff', 'important');
+            img.style.setProperty('box-shadow', '0 0 0 1px rgba(0,0,0,0.08), 0 8px 24px rgba(0,0,0,0.15)', 'important');
+            img.style.setProperty('transition', 'all 0.3s ease', 'important');
+            img.style.setProperty('border-radius', '2px', 'important');
         });
         
-        console.log('✅ 画像ギャラリースタイル適用完了');
+        // ホバー効果
+        items.forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-8px)';
+                const img = this.querySelector('img');
+                if (img) {
+                    img.style.boxShadow = '0 0 0 1px rgba(0,0,0,0.1), 0 16px 40px rgba(0,0,0,0.25)';
+                    img.style.filter = 'brightness(1.05)';
+                }
+            });
+            
+            item.addEventListener('mouseleave', function() {
+                this.style.transform = '';
+                const img = this.querySelector('img');
+                if (img) {
+                    img.style.boxShadow = '0 0 0 1px rgba(0,0,0,0.08), 0 8px 24px rgba(0,0,0,0.15)';
+                    img.style.filter = '';
+                }
+            });
+        });
+        
+        console.log('✅ 美術館風ギャラリースタイル適用完了');
     });
   }
 });
